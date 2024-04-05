@@ -1,5 +1,5 @@
 // loads the products array into server memory from the products.json file
-const products = require('./products.json');
+const products = require(__dirname + '/products.json');
 
 const express = require('express');
 const app = express();

@@ -9,7 +9,7 @@
     "name" : "hot dogs",
     "price" : 1.99,
     "image" : "hotdogs.jpg",
-    "type" : "meat"
+    "type" : "1",
   },
   {
     "name" : "spam",
