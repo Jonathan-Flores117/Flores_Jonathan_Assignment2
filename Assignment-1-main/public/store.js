@@ -9,9 +9,12 @@ if (params.has('errors')) {
   // get the quantities also to insert into the form to make sticky
   quantities = JSON.parse(params.get('quantities'));
   // Put up an alert box if there are errors
+  if(typeof errors['no_quantities'] !== 'undefined') {
+    alert(errors['no_quantities']);
+  } else{
   alert('Please fix the errors in the form and resubmit');
 }
-
+}
 let products;
 window.onload = async function () {
   // use fetch to retrieve product data from the server

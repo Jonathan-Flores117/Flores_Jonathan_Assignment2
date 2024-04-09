@@ -26,13 +26,20 @@ app.post('/process_purchase_form', function (req, res, next) {
   let quantities = [];
   if (typeof req.body['quantity_textbox'] != 'undefined') {
      quantities = req.body['quantity_textbox'];
-    // validate that all quantities are good
+    // validate that all quantities are good are non neg int
+    let has_quantities = false;
     for (let i in quantities) {
       if (!isNonNegInt(quantities[i])) {
         errors['quantity' + i] = isNonNegInt(quantities[i], true);
       }
+      if(quantities[i]>0){
+        has_quantities = true;
+      }
     }
-
+    // if no quantities >0 then make a no_quantities error
+    if(has_quantities === false) {
+errors['no_quantities']= 'Must select some games';
+    }
     console.log(Date.now() + ': Purchase made from ip ' + req.ip + ' data: ' + JSON.stringify(req.body));
   }
 
