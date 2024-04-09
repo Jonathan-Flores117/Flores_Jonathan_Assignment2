@@ -1,74 +1,86 @@
 [
   {
-    "name" : "baked beans",
-    "price" : 0.40,
-    "image" : "beans.jpg",
-    "type" : "vegetables"
+    "name" : "Halo 3",
+    "price" : 5.00,
+    "image" : "halo 3.jpg",
+    "type" : "First Person Shooter",
+    "quantity_available" : "17",
   },
   {
-    "name" : "hot dogs",
-    "price" : 1.99,
-    "image" : "hotdogs.jpg",
-    "type" : "1",
+    "name" : "Gears of War",
+    "price" : 4.00,
+    "image" : "GOW3.jpg",
+    "type" : "Third Person Shooter",
+    "quantity_available": "8",
   },
   {
-    "name" : "spam",
-    "price" : 2.85,
-    "image" : "spam.jpg",
-    "type" : "meat"
+    "name" : "Command & Conquer ",
+    "price" : 5.00,
+    "image" : "C&C.jpg",
+    "type" : "Strategy",
+    "quantity_available": "4",
   },
   {
-    "name" : "refried beans",
-    "price" : 0.99,
-    "image" : "refried.jpg",
-    "type" : "vegetables"
+    "name" : "Call Of Duty Black Ops",
+    "price" : 3.00,
+    "image" : "codbo.jpg",
+    "type" : "First Person shooter",
+    "quantity_available": "8",
   },
   {
-    "name" : "kidney beans",
+    "name" : "Left 4 Dead 2",
     "price" : 0.58,
-    "image" : "kidney.jpg",
-    "type" : "vegetables"
+    "image" : "l4d2.jpg",
+    "type" : "First Person Shooter",
+    "quantity_available": "4",
   },
   {
-    "name" : "garden peas",
+    "name" : "Warthunder",
     "price" : 0.52,
-    "image" : "gardenpeas.jpg",
-    "type" : "vegetables"
+    "image" : "Warthunder.jpg",
+    "type" : "Action",
+    "quantity_available": "6",
   },
   {
-    "name" : "mushy peas",
-    "price" : 0.58,
-    "image" : "mushypeas.jpg",
-    "type" : "vegetables"
+    "name" : "Kingdom Hearts",
+    "price" : 1.00,
+    "image" : "KH2.jpg",
+    "type" : "Action Adventure",
+    "quantity_available": "1",
   },
   {
-    "name" : "corned beef",
-    "price" : 2.39,
-    "image" : "cornedbeef.jpg",
-    "type" : "meat"
+    "name" : "Skyrim",
+    "price" : 10.00,
+    "image" : "Skyrim.jpg",
+    "type" : "Role playing Game",
+    "quantity_available": "3",
   },
   {
-    "name" : "tomato soup",
+    "name" : "Counter Strike",
     "price" : 1.40,
-    "image" : "tomatosoup.jpg",
-    "type" : "soup"
+    "image" : "CS.jpg",
+    "type" : "First Person Shooter",
+    "quantity_available": "4",
   },
   {
-    "name" : "chopped tomatoes",
-    "price" : 0.45,
-    "image" : "tomato.jpg",
-    "type" : "vegetables"
+    "name" : "Sim City",
+    "price" : 1.50,
+    "image" : "Sim City.jpg",
+    "type" : "Simulation",
+    "quantity_available": "3",
   },
   {
-    "name" : "chicken noodle soup",
-    "price" : 1.89,
-    "image" : "chickennoodle.jpg",
-    "type" : "soup"
+    "name" : "Guitar Hero 3",
+    "price" : 2.00,
+    "image" : "GH3.jpg",
+    "type" : "Rythem",
+    "quantity_available": "4",
   },
   {
-    "name" : "carrot and coriander soup",
+    "name" : "Modern Warfare 2",
     "price" : 1.49,
-    "image" : "carrotcoriander.jpg",
-    "type" : "soup"
+    "image" : "MW2.jpg",
+    "type" : "First Person Shooter",
+    "quantity_available": "4",
   }
 ]

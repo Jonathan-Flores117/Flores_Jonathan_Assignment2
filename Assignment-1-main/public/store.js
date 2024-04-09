@@ -64,7 +64,7 @@ function display_products() {
                 <p>$${products[i].price}</p>
                 <label>${quantity_label}</label>
                 <input type="text" placeholder="0" name="quantity_textbox[${i}]" value="${quantity}">
-                <img src="./images/${products[i].image}">
+                <img src="C:\Users\jonat\Downloads\Assignment-1-main\Assignment-1-main\public\images">
             </section>
 `;
   }
