@@ -72,3 +72,44 @@ function isNonNegInt(q, returnErrors = false) {
   }
   return returnErrors ? errors : (errors.length == 0);
 }
+
+
+// login page 
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const port = 3000;
+
+// Parse URL-encoded bodies (as sent by HTML forms)
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Serve login.html when the user accesses the root URL
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/login.html');
+});
+
+// Route to handle login data
+app.post('/login', (req, res) => {
+  // Respond with the login data received
+  res.send(req.body);
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
+
+
+
+//registraion page. smae but different names 
+
+
+// Add this route for registration
+app.get('/register', (req, res) => {
+  res.sendFile(__dirname + '/register.html');
+});
+
+app.post('/register', (req, res) => {
+  // Respond with the registration data received
+  res.send(req.body);
+});
