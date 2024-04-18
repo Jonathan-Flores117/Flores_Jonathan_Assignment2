@@ -1,8 +1,20 @@
 {
-    "users": [
-        {
-            "username": "ITM352",
-            "password": "grader"
-        },
-    ]
+    "dport": {
+        "name": "Dan Port",
+        "password": "portspassword",
+        "email": "dport@hawaii.edu",
+        "address": "1234 apple st"
+    },
+    "kazman": {
+        "name": "Rick Kazman",
+        "password": "kazmanpassword",
+        "email": "kazman@hawaii.edu",
+        "address": "1234 orange st"
+    },
+    "itm352": {
+        "name": "ITM 352",
+        "password": "grader",
+        "email": "itm352@hawaii.edu",
+        "address": "1234 bannana st"
+    }
 }
