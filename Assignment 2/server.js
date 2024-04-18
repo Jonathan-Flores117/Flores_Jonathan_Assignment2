@@ -31,23 +31,36 @@ app.all('*', function (request, response, next) {
 
 
 
-app.post("/login", function (request, response) {
+app.post("/process_login", function (request, response) {
   //accessing the request body
-  const logindata = request.body;
-  //log the proccess the login data here(authenticated user)
-  console.log('login data:',logindata);
+console.log(request.body);
+let errors = {}
+//log the proccess the login data here(authenticated user)
+let email =request.body["email"];
+let password = request.body["password"];
+if (email in users_reg_data) {
+  //check if pass matches
+  if(password === users_reg_data[email]){
+    console.log(`${email} is logged in`);
+  }
+} else {
+  errors['no_user'] = `${email} not register`;
+}
+}
 
-  response.json(loginData);
+response.json(errors);
 
   // Process login form POST and redirect to logged in page if ok, back to login page if not
 
 });
 //same code for login but now for register below
-app.post("/login", function (request, response) 
+app.post("/register", function (request, response))
+
+
 
 // A micro-service to return the products data currently in memory on the server as
 // javascript to define the products array
-app.get('/products.json', function (req, res, next) {
+{app.get('/products.json', function (req, res, next) {
   res.json(products);
 });
 
@@ -122,7 +135,7 @@ app.get('/login', (req, res) => {
 });
 
 // Route to handle login data
-app.post('/login', (req, res) => {
+app.post('/proccess_login', (req, res) => {
   // Respond with the login data received
   res.send(req.body);
 });
@@ -146,3 +159,4 @@ app.post('/register', (req, res) => {
   // Respond with the registration data received
   res.send(req.body);
 });
+}
