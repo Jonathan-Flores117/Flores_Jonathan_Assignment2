@@ -4,83 +4,83 @@
     "price" : 5.00,
     "image" : "halo 3.jpg",
     "type" : "First Person Shooter",
-    "quantity_available" : "17",
+    "quantity_available" : "17"
   },
   {
     "name" : "Gears of War",
     "price" : 4.00,
     "image" : "GOW3.jpg",
     "type" : "Third Person Shooter",
-    "quantity_available": "8",
+    "quantity_available": "8"
   },
   {
     "name" : "Command & Conquer ",
     "price" : 5.00,
     "image" : "C&C.jpg",
     "type" : "Strategy",
-    "quantity_available": "4",
+    "quantity_available": "4"
   },
   {
     "name" : "Call Of Duty Black Ops",
     "price" : 3.00,
     "image" : "codbo.jpg",
     "type" : "First Person shooter",
-    "quantity_available": "8",
+    "quantity_available": "8"
   },
   {
     "name" : "Left 4 Dead 2",
     "price" : 0.58,
     "image" : "l4d2.jpg",
     "type" : "First Person Shooter",
-    "quantity_available": "4",
+    "quantity_available": "4"
   },
   {
     "name" : "Warthunder",
     "price" : 0.52,
     "image" : "Warthunder.jpg",
     "type" : "Action",
-    "quantity_available": "6",
+    "quantity_available": "6"
   },
   {
     "name" : "Kingdom Hearts",
     "price" : 1.00,
     "image" : "KH2.jpg",
     "type" : "Action Adventure",
-    "quantity_available": "1",
+    "quantity_available": "1"
   },
   {
     "name" : "Skyrim",
     "price" : 10.00,
     "image" : "Skyrim.jpg",
     "type" : "Role playing Game",
-    "quantity_available": "3",
+    "quantity_available": "3"
   },
   {
     "name" : "Counter Strike",
     "price" : 1.40,
     "image" : "CS.jpg",
     "type" : "First Person Shooter",
-    "quantity_available": "4",
+    "quantity_available": "4"
   },
   {
     "name" : "Sim City",
     "price" : 1.50,
     "image" : "Sim City.jpg",
     "type" : "Simulation",
-    "quantity_available": "3",
+    "quantity_available": "3"
   },
   {
     "name" : "Guitar Hero 3",
     "price" : 2.00,
     "image" : "GH3.jpg",
     "type" : "Rythem",
-    "quantity_available": "4",
+    "quantity_available": "4"
   },
   {
     "name" : "Modern Warfare 2",
     "price" : 1.49,
     "image" : "MW2.jpg",
     "type" : "First Person Shooter",
-    "quantity_available": "4",
+    "quantity_available": "4"
   }
 ]

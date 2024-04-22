@@ -47,14 +47,14 @@ if (email in users_reg_data) {
   errors['no_user'] = `${email} not register`;
 }
 }
-
-response.json(errors);
-
+,
+response.json(errors));
+{
   // Process login form POST and redirect to logged in page if ok, back to login page if not
 
-});
+};
 //same code for login but now for register below
-app.post("/register", function (request, response))
+app.post("/process_register", function (request, response)
 
 
 
@@ -129,10 +129,6 @@ const port = 3000;
 // Parse URL-encoded bodies (as sent by HTML forms)
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve login.html when the user accesses the root URL
-app.get('/login', (req, res) => {
-  res.sendFile(__dirname + '/login.html');
-});
 
 // Route to handle login data
 app.post('/proccess_login', (req, res) => {
@@ -159,4 +155,4 @@ app.post('/register', (req, res) => {
   // Respond with the registration data received
   res.send(req.body);
 });
-}
+})
