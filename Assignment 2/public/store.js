@@ -72,3 +72,26 @@ function display_products() {
 `;
   }
 }
+
+// Checks if the user is logged in after they click the purchase button
+function isLoggedIn() {
+  // Assuming sessionStorage or a similar mechanism to check login status
+  return sessionStorage.getItem('isLoggedIn') === 'true';
+}
+
+function addToCart(productName) {
+  if (!isLoggedIn()) {
+    alert('Please register or login to make a purchase.');
+    window.location.href = 'login.html'; // Redirect to login page
+    return; // Stop further execution
+  }
+
+  var quantityInput = document.getElementById('quantity_' + productName);
+  var quantity = parseInt(quantityInput.value);
+  if (quantity > 0) {
+    cart[productName] = (cart[productName] || 0) + quantity;
+    alert('Added ' + quantity + ' ' + productName + ' to cart!');
+  } else {
+    alert('Please enter a valid quantity.');
+  }
+}
