@@ -9,16 +9,31 @@
 
 <body>
     <h1>Login</h1>
-    <form action="./process_login" method="POST">
-        <input type="text" name="email" size="40" placeholder="enter email"><br />
-        <input type="password" name="password" size="40" placeholder="enter password"><br />
-        <input type="submit" value="Submit" id="submit">
+    <!-- Added an id to the form for easier DOM manipulation -->
+    <form id="login-form" action="./process_login" method="POST">
+        <input type="text" name="email" size="40" placeholder="Enter email"><br />
+        <input type="password" name="password" size="40" placeholder="Enter password"><br />
+        <input type="submit" value="Submit">
     </form>
     <a href="registration.html">Register</a>
+
+    <div id="loginPrompt"></div> <!-- Element to display login messages -->
+
     <script>
         const form = document.getElementById('login-form');
+        const loginPrompt = document.getElementById('loginPrompt');
+
+        // Check URL parameters for a login prompt
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('prompt')) {
+            loginPrompt.textContent = "Please log in to continue with your purchase.";
+            loginPrompt.style.color = "red";
+        }
+
         form.addEventListener('submit', (event) => {
-            // Your event handling code goes here
+            event.preventDefault(); // Prevent the form from submitting normally
+            // Perform any validations or checks here before submitting manually if necessary
+            form.submit(); // You can submit the form programmatically after validation
         });
     </script>
 </body>

@@ -1,158 +1,109 @@
-//const users_reg_data = require(__dirname + '.user_data.json')
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 const fs = require('fs');
 
 const user_data_file = __dirname + '/user_data.json';
+let user_data = {};
 
-//check that user file exists and read in if it does
-let users_reg_data = {};
-if(fs.existsSync(user_data_file)) {
-  const data = fs.readFileSync(user_data_file,'utf-8');
-   users_reg_data = JSON.parse(data);
- let stats = fs.statSync(user_data_file);
- console.log(`${user_data_file} has ${stats.size} characters`)
-
+// Load user data from JSON file
+try {
+  user_data = JSON.parse(fs.readFileSync(user_data_file, 'utf8'));
+} catch (err) {
+  console.error('Error loading user data:', err);
 }
-console.log(users_reg_data);
-// ^^^this is the lab code that was copied from ex1.js ^
 
-// loads the products array into server memory from the products.json file
-const products = require(__dirname + '/products.json');
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const express = require('express');
-const app = express();
-
-const myParser = require("body-parser");
-app.use(myParser.urlencoded({ extended: true }));
-
-app.all('*', function (request, response, next) {
-  console.log(request.method + ' to ' + request.path);
+// Middleware for logging requests
+app.use((req, res, next) => {
+  console.log(req.method + ' to ' + req.path);
   next();
 });
 
-
-
-app.post("/process_login", function (request, response) {
-  //accessing the request body
-console.log(request.body);
-let errors = {}
-//log the proccess the login data here(authenticated user)
-let email =request.body["email"];
-let password = request.body["password"];
-if (email in users_reg_data) {
-  //check if pass matches
-  if(password === users_reg_data[email]){
-    console.log(`${email} is logged in`);
-  }
-} else {
-  errors['no_user'] = `${email} not register`;
-}
-}
-,
-response.json(errors));
-{
-  // Process login form POST and redirect to logged in page if ok, back to login page if not
-
-};
-//same code for login but now for register below
-app.post("/process_register", function (request, response)
-
-
-
-// A micro-service to return the products data currently in memory on the server as
-// javascript to define the products array
-{app.get('/products.json', function (req, res, next) {
-  res.json(products);
+// Registration route
+app.get("/register", (req, res) => {
+  res.sendFile(__dirname + "/registration.html");
 });
 
-// A micro-service to process the product quantities from the form data
-// redirect to invoice if quantities are valid, otherwise redirect back to products_display
-app.post('/process_purchase_form', function (req, res, next) {
-  // only process if purchase form submitted
-  const errors = { }; // assume no errors to start
-  let quantities = [];
-  if (typeof req.body['quantity_textbox'] != 'undefined') {
-     quantities = req.body['quantity_textbox'];
-    // validate that all quantities are good are non neg int
-    let has_quantities = false;
-    for (let i in quantities) {
-      if (!isNonNegInt(quantities[i])) {
-        errors['quantity' + i] = isNonNegInt(quantities[i], true);
-      }
-      if(quantities[i]>0){
-        has_quantities = true;
-      }
+// Registration form handling
+app.post("/register", (req, res) => {
+  const { username, password, repeat_password, email } = req.body;
+
+  // Check if username or email already exists
+  if (user_data[username] || user_data[email]) {
+    return res.status(400).send("Username or email already exists.");
+  }
+
+  // Check if passwords match
+  if (password !== repeat_password) {
+    return res.status(400).send("Passwords do not match.");
+  }
+
+  // Hash password
+  const hashedPassword = bcrypt.hashSync(password, 10);
+
+  // Save registration data
+  user_data[username] = {
+    email: email,
+    password: hashedPassword
+  };
+
+  // Write user data to file
+  fs.writeFile(user_data_file, JSON.stringify(user_data, null, 2), (err) => {
+    if (err) {
+      console.error('Error saving user data:', err);
+      return res.status(500).send("Error saving user data.");
     }
-    // if no quantities >0 then make a no_quantities error
-    if(has_quantities === false) {
-errors['no_quantities']= 'Must select some games';
-    }
-    console.log(Date.now() + ': Purchase made from ip ' + req.ip + ' data: ' + JSON.stringify(req.body));
+    res.redirect("/login.html");
+  });
+});
+
+// Login route
+app.get("/login", (req, res) => {
+  res.sendFile(__dirname + "/login.html");
+});
+
+// Login form handling
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  // Check if username exists
+  if (!user_data[username]) {
+    return res.status(400).send("User does not exist.");
   }
 
-  // create a query string with data from the form
-  const params = new URLSearchParams();
-  params.append('quantities', JSON.stringify(quantities));
-
-  // If there are errors, send user back to fix otherwise send to invoice
-  if(Object.keys(errors).length > 0) {
-    // Have errors, redirect back to store where errors came from to fix and try again
-    params.append('errors', JSON.stringify(errors));
-    res.redirect( 'store.html?' + params.toString());
-  } else {
-    res.redirect('./invoice.html?' + params.toString());
+  // Check if password is correct
+  if (!bcrypt.compareSync(password, user_data[username].password)) {
+    return res.status(400).send("Incorrect password.");
   }
 
+  // Redirect to invoice page or wherever you want to go after successful login
+  res.redirect("/invoice.html");
 });
 
-app.use(express.static(__dirname + '/public'));
-app.listen(8080, () => console.log(`listening on port 8080`));
-
-
-function isNonNegInt(q, returnErrors = false) {
-  errors = []; // assume no errors at first
-  if(q == '') q = 0; // handle blank inputs as if they are 0
-  if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
-  else {
-    if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
-    if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+// Purchase form handling
+app.post('/process_purchase_form', (req, res) => {
+  // Validate product quantities
+  const quantities = req.body.quantity_textbox.map(Number);
+  if (quantities.some(qty => isNaN(qty) || qty < 0)) {
+    return res.status(400).send("Invalid quantity values.");
   }
-  return returnErrors ? errors : (errors.length == 0);
-}
+  if (quantities.every(qty => qty === 0)) {
+    return res.status(400).send("Please select at least one product.");
+  }
 
-
-// login page 
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
-const port = 3000;
-
-// Parse URL-encoded bodies (as sent by HTML forms)
-app.use(bodyParser.urlencoded({ extended: true }));
-
-
-// Route to handle login data
-app.post('/proccess_login', (req, res) => {
-  // Respond with the login data received
-  res.send(req.body);
+  // Process purchase form here
+  // Redirect to invoice page or wherever you want to go after successful purchase
+  res.redirect("/invoice.html");
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+// Serve static files
+app.use(express.static('public'));
+
+// Start server
+const PORT = 3000; // Retained the same port as the original code
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-
-
-//registraion page. smae but different names 
-
-
-// Add this route for registration
-app.get('/register', (req, res) => {
-  res.sendFile(__dirname + '/register.html');
-});
-
-app.post('/register', (req, res) => {
-  // Respond with the registration data received
-  res.send(req.body);
-});
-})
