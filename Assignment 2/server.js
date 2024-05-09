@@ -41,6 +41,11 @@ let password = request.body["password"];
 if (email in users_reg_data) {
   //check if pass matches
   if(password === users_reg_data[email]){
+//pass ok send to invoice
+//give user cookie with email
+res.cookie('login_email', req.body.email);
+res.redirect('./invoice.hmtl?'+ params.toString());
+return;
     console.log(`${email} is logged in`);
   }
 } else {
@@ -156,3 +161,20 @@ app.post('/register', (req, res) => {
   res.send(req.body);
 });
 })
+
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
