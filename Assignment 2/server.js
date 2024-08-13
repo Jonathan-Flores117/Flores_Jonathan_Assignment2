@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
+const session = require('express-session');
 
 const user_data_file = __dirname + '/user_data.json';
 let user_data = {};
@@ -16,9 +17,16 @@ try {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Middleware for logging requests
+// Session middleware
+app.use(session({
+  secret: 'your_long_random_secret_string_here',  // Change this to a long, random string
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }  // Set to true if using https
+}));
+
 app.use((req, res, next) => {
-  console.log(req.method + ' to ' + req.path);
+  res.locals.user = req.session.user;
   next();
 });
 
@@ -29,35 +37,7 @@ app.get("/register", (req, res) => {
 
 // Registration form handling
 app.post("/register", (req, res) => {
-  const { username, password, repeat_password, email } = req.body;
-
-  // Check if username or email already exists
-  if (user_data[username] || user_data[email]) {
-    return res.status(400).send("Username or email already exists.");
-  }
-
-  // Check if passwords match
-  if (password !== repeat_password) {
-    return res.status(400).send("Passwords do not match.");
-  }
-
-  // Hash password
-  const hashedPassword = bcrypt.hashSync(password, 10);
-
-  // Save registration data
-  user_data[username] = {
-    email: email,
-    password: hashedPassword
-  };
-
-  // Write user data to file
-  fs.writeFile(user_data_file, JSON.stringify(user_data, null, 2), (err) => {
-    if (err) {
-      console.error('Error saving user data:', err);
-      return res.status(500).send("Error saving user data.");
-    }
-    res.redirect("/login.html");
-  });
+  // ... (your existing code)
 });
 
 // Login route
@@ -79,12 +59,42 @@ app.post("/login", (req, res) => {
     return res.status(400).send("Incorrect password.");
   }
 
+  // Set session variables
+  req.session.user = {
+    username: username,
+    email: user_data[username].email
+  };
+
   // Redirect to invoice page or wherever you want to go after successful login
   res.redirect("/invoice.html");
 });
 
+// Add a logout route
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return console.log(err);
+    }
+    res.redirect('/');
+  });
+});
+
+// Add a middleware to check if user is logged in
+function isLoggedIn(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+}
+
+// Use the middleware for protected routes
+app.get('/invoice.html', isLoggedIn, (req, res) => {
+  res.sendFile(__dirname + '/invoice.html');
+});
+
 // Purchase form handling
-app.post('/process_purchase_form', (req, res) => {
+app.post('/process_purchase_form', isLoggedIn, (req, res) => {
   // Validate product quantities
   const quantities = req.body.quantity_textbox.map(Number);
   if (quantities.some(qty => isNaN(qty) || qty < 0)) {
@@ -103,7 +113,7 @@ app.post('/process_purchase_form', (req, res) => {
 app.use(express.static('public'));
 
 // Start server
-const PORT = 3000; // Retained the same port as the original code
+const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
