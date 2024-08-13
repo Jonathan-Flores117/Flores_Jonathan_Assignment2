@@ -5,22 +5,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        body {
+            background-color: rgba(0, 0, 0, 0.532);
+        }
+
+        .login-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.116);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgb(0, 0, 0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+
+        input[type=text],
+        input[type=password] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #cccccc33;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+
+        button {
+            background-color: #04AA6D;
+            color: black;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+
+        .container {
+            padding: 0 20px;
+            margin-top: 50px;
+
+        }
+
+
+        .psw {
+            margin-bottom: 100px;
+            margin-left: 40px;
+            font-size: 18px;
+            position: relative;
+            top: 15px;
+
+
+        }
+
+
+        
+
+
+        .register-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #041aaa;
+            text-decoration: none;
+        }
+
+        .error-message {
+            color: rgb(255, 55, 0);
+
+        }
+    </style>
+    <script>
+        // get the query string into a easy to use object
+        const params = (new URL(document.location)).searchParams;
+        let errors = {};
+        if (params.has('errors')) {
+            errors = JSON.parse(params.get('errors'));
+            params.delete('errors');
+        }
+        // Function to display errors GPT helped
+        function ErrorLogin() {
+            for (let key in errors) {
+                const inputField = document.querySelector(`[name="${key}"]`);
+                const errorSpan = document.createElement('span');
+                errorSpan.textContent = errors[key];
+                errorSpan.classList.add('error-message');
+                inputField.insertAdjacentElement('afterend', errorSpan);
+            }
+        }
+        // Load error on page 
+        window.onload = function () {
+            ErrorLogin();
+        };
+
+    </script>
+
+
 </head>
 
 <body>
-    <h1>Login</h1>
-    <form action="./process_login" method="POST">
-        <input type="text" name="email" size="40" placeholder="enter email"><br />
-        <input type="password" name="password" size="40" placeholder="enter password"><br />
-        <input type="submit" value="Submit" id="submit">
-    </form>
-    <a href="registration.html">Register</a>
     <script>
-        const form = document.getElementById('login-form');
-        form.addEventListener('submit', (event) => {
-            // Your event handling code goes here
-        });
+        document.write(`<form action="processLogin?${params.toString()}" method="POST">`);
     </script>
+    <div class="login-container">
+        <div class="container">
+            <form action="/login" method="POST">
+                <label for="email"><b>Email</b></label>
+                <input type="email" name="Enter Email" name="email" required>
+    
+                <label for="password"><b>Password</b></label>
+                <input type="password" name="Enter Password" name="password" required>
+    
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    
+        <div class="container" style="background-color: rgba(0, 0, 0, 0)">
+            <span class="psw">Don't have an account? <a href="/registration.html">Register</a></span>
+        </div>
+    </div>
 </body>
 
 </html>

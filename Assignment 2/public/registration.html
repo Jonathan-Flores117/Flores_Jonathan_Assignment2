@@ -1,17 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Registration</title>
+    
+    <script>
+
+        function setPassword() {
+            const passwordInput = document.getElementById('psw');
+            const suggestedPassword = generatePassword();
+            passwordInput.value = suggestedPassword;
+        }
+
+        function enableEditing() {
+            const passwordInput = document.getElementById('psw');
+            passwordInput.readOnly = false;
+            passwordInput.focus();
+        }
+
+        window.onload = function () {
+            setPassword();
+            document.getElementById('editPassword').addEventListener('click', enableEditing);
+        }
+    </script>
 </head>
 
 <body>
-    <h2>Login</h2>
-    <form action="/register" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username"><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password"><br><br>
-        <input type="submit" value="register">
+    <h1>Register</h1>
+    <form action="login.html">
+        <div class="container">
+            <label for="email"><b>Email</b></label>
+            <input type="text" placeholder="Enter Email" name="email" id="email" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" id="psw" required readonly>
+           
+
+            <label for="psw-repeat"><b>Repeat Password</b></label>
+            <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+            <hr>
+
+            <input type="submit" value="Register">
+        </div>
+
+        <div class="container signin">
+            <p>Already have an account? <a href="login.html">Sign in</a>.</p>
+        </div>
     </form>
 </body>
 
